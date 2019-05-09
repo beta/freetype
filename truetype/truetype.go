@@ -15,10 +15,12 @@
 //
 // To measure a TrueType font in ideal FUnit space, use scale equal to
 // font.FUnitsPerEm().
-package truetype // import "github.com/golang/freetype/truetype"
+package truetype // import "github.com/beta/freetype/truetype"
 
 import (
 	"fmt"
+	"unicode/utf16"
+	"unicode/utf8"
 
 	"golang.org/x/image/math/fixed"
 )
@@ -426,9 +428,12 @@ func (f *Font) Name(id NameID) string {
 		if len(src)&1 != 0 {
 			return ""
 		}
-		dst = make([]byte, len(src)/2)
-		for i := range dst {
-			dst[i] = printable(u16(src, 2*i))
+		dst = make([]byte, 0, len(src)/2)
+		buf := make([]byte, 4)
+		for i := 0; i < len(src); i += 2 {
+			runes := utf16.Decode([]uint16{u16(src, i)})
+			n := utf8.EncodeRune(buf, runes[0])
+			dst = append(dst, buf[:n]...)
 		}
 	} else { // ASCII.
 		dst = make([]byte, len(src))

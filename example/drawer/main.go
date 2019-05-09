@@ -24,7 +24,7 @@ import (
 	"math"
 	"os"
 
-	"github.com/golang/freetype/truetype"
+	"github.com/beta/freetype/truetype"
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
 )

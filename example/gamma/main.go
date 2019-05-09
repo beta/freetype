@@ -20,7 +20,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/golang/freetype/raster"
+	"github.com/beta/freetype/raster"
 	"golang.org/x/image/math/fixed"
 )
 
